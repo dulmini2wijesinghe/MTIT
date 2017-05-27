@@ -82,11 +82,6 @@ public class EditActivity extends ActionBarActivity {
             }
         });
     }
-
-
-
-
-
     //------------------------------------------------------------------------------/
     public void onSaveClicked() {
         dbAccess databaseAccess = dbAccess.getInstance(this);

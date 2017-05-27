@@ -1,7 +1,6 @@
 package mad.sliit.memo;
 
 import android.content.DialogInterface;
-import android.support.annotation.Nullable;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
@@ -12,6 +11,7 @@ import android.widget.EditText;
 import mad.sliit.memo.db.dbAccess;
 
 public class EditActivity extends ActionBarActivity {
+    //for edit existing notes
 
 
     private EditText edit_Text;
@@ -54,7 +54,7 @@ public class EditActivity extends ActionBarActivity {
 
 
         //------------------------------------------------------------------------------/
-        this.Cancel_button.setOnClickListener(new View.OnClickListener() {
+         this.Cancel_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
@@ -82,6 +82,11 @@ public class EditActivity extends ActionBarActivity {
             }
         });
     }
+
+
+
+
+
     //------------------------------------------------------------------------------/
     public void onSaveClicked() {
         dbAccess databaseAccess = dbAccess.getInstance(this);

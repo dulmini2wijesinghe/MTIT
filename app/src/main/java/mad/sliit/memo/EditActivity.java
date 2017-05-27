@@ -13,98 +13,101 @@ import mad.sliit.memo.db.dbAccess;
 
 public class EditActivity extends ActionBarActivity {
 
-    //for edit existing notes
-    private EditText edit_text;
-    private Button Save;
-    private Button Cancel;
+
+    private EditText edit_Text;
+
+    private Button Save_button;
+
+    private Button Cancel_button;
+
     private Notes noteActivity;
-
+    //------------------------------------------------------------------------------/
     @Override
-    protected void onCreate( Bundle savedInstanceState) {
-
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit);
 
-        this.edit_text = (EditText)findViewById(R.id.etText);
-        this.Save = (Button) findViewById(R.id.btnSave);
-        this.Cancel = (Button) findViewById(R.id.btnCancel);
+        this.edit_Text = (EditText) findViewById(R.id.etText);
 
+        this.Save_button = (Button) findViewById(R.id.btnSave);
+
+        this.Cancel_button = (Button) findViewById(R.id.btnCancel);
+
+
+
+        //------------------------------------------------------------------------------/
         Bundle bundle = getIntent().getExtras();
-        if(bundle != null)
-        {
-            noteActivity = (Notes)bundle.get("note");
-
-            if(noteActivity !=null){
-
-                this.edit_text.setText(noteActivity.);
+        if(bundle != null) {
+            noteActivity = (Notes) bundle.get("NOTE");
+            if(noteActivity != null) {
+                this.edit_Text.setText(noteActivity.getText());
             }
-
         }
 
-        this.Save.setOnClickListener(new View.OnClickListener() {
+        //------------------------------------------------------------------------------/
+        this.Save_button.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
-
+            public void onClick(View v) {
                 onSaveClicked();
             }
         });
 
-        this.Cancel.setOnClickListener(new View.OnClickListener() {
+
+        //------------------------------------------------------------------------------/
+        this.Cancel_button.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
+            public void onClick(View v) {
 
-                AlertDialog.Builder ad= new AlertDialog(EditActivity.this);
-                final AlertDialog.Builder builder = ad.setMessage("Are you sure you want to cancel?").setTitle(""Cancel).setNeutralButton("No", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
+                AlertDialog.Builder adb=new AlertDialog.Builder(EditActivity.this);
 
+                final AlertDialog.Builder builder = adb.setMessage(" Are you sure you want to cancel?")
+                        .setTitle("Cancel")
+                        .setNeutralButton("No", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
 
-                    }
-                }).setCancelable(false).setNegativeButton("Yes", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-
-                        onCancelClicked();
-
-                    }
-                });
-
-                AlertDialog alertDialog = ad.create();
-
+                            }
+                        })
+                        .setCancelable(false)
+                        .setNegativeButton("Yes", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                onCancelClicked();
+                            }
+                        });
+                AlertDialog alertDialog=adb.create();
                 alertDialog.show();
+
+
             }
         });
     }
 
-    public void onSaveClicked(){
 
-        dbAccess databaseAcc= dbAccess.getInstance(this);
-        databaseAcc.getInstance(this);
-        databaseAcc.open();
 
-        if(noteActivity==null){
 
+
+    //------------------------------------------------------------------------------/
+    public void onSaveClicked() {
+        dbAccess databaseAccess = dbAccess.getInstance(this);
+        databaseAccess.open();
+        if(noteActivity == null) {
+            // Add new memo
             Notes temp = new Notes();
-            temp.setText(edit_text.getText().toString());
-
-            databaseAcc.save(temp);
-
+            temp.setText(edit_Text.getText().toString());
+            databaseAccess.save(temp);
+        } else {
+            // Update the memo
+            noteActivity.setText(edit_Text.getText().toString());
+            databaseAccess.update(noteActivity);
         }
-
-        else{
-
-            noteActivity.setText(edit_text.getText().toString();
-            databaseAcc.update(noteActivity);
-
-
-        }
-
-        databaseAcc.close();
+        databaseAccess.close();
         this.finish();
     }
 
-    public void onCancelClicked(){
 
+
+    public void onCancelClicked() {
         this.finish();
     }
 }
